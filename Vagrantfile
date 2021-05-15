@@ -19,59 +19,7 @@ def get_vm_name(id)
 end
 
 
-def controller_exists(name, controller_name)
-  return false if name.nil?
 
-  out, err = Open3.capture2e("VBoxManage showvminfo #{name}")
-  raise out unless err.exitstatus.zero?
-
-  out.split(/\n/)
-     .select { |x| x.start_with? 'Storage Controller Name' }
-     .map { |x| x.split(':')[1].strip }
-     .any? { |x| x == controller_name }
-end
-
-def create_disks(vbox, name)
-  unless controller_exists(name, 'SATA Controller')
-    vbox.customize ['storagectl', :id,
-                    '--name', 'SATA Controller',
-                    '--add', 'sata']
-  end
-
-  dir = "../vdisks"
-  FileUtils.mkdir_p dir unless File.directory?(dir)
-
-  disks = (1..6).map { |x| ["disk#{x}_", '1024'] }
-
-  disks.each_with_index do |(name, size), i|
-    file_to_disk = "#{dir}/#{name}.vdi"
-    port = (i + 1).to_s
-
-    unless File.exist?(file_to_disk)
-      vbox.customize ['createmedium',
-                      'disk',
-                      '--filename',
-                      file_to_disk,
-                      '--size',
-                      size,
-                      '--format',
-                      'VDI',
-                      '--variant',
-                      'standard']
-    end
-
-    vbox.customize ['storageattach', :id,
-                    '--storagectl', 'SATA Controller',
-                    '--port', port,
-                    '--type', 'hdd',
-                    '--medium', file_to_disk,
-                    '--device', '0']
-
-    vbox.customize ['setextradata', :id,
-                    "VBoxInternal/Devices/ahci/0/Config/Port#{port}/SerialNumber",
-                    name.ljust(20, '0')]
-  end
-end
 
 Vagrant.configure("2") do |config|
 
@@ -96,8 +44,7 @@ config.vm.define "server" do |server|
 
 
   server.vm.provision "shell",
-    name: "Setup zfs",
-    path: "setup_zfs.sh"
+
   end
 
 
