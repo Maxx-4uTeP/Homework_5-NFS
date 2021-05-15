@@ -1,5 +1,5 @@
- # Домашняя работа 4 (ZFS)
- {: .blue #blue-h}
+ # <span style="color: green">Домашняя работа 5 (NFS)</span>
+
  ## 1. Определить алгоритм с наилучшим сжатием
 <details>
  <summary>Решение</summary>
