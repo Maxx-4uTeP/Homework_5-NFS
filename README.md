@@ -40,8 +40,8 @@
     storage/lzjb    compression  lzjb      local
     storage/zle     compression  zle       local
 
-
 Залили везде Войну и Мир:
+
     [root@server ~]# cp War_and_Peace.txt /storage/gzip/
     [root@server ~]# cp War_and_Peace.txt /storage/gzip-N
     [root@server ~]# cp War_and_Peace.txt /storage/lz4
@@ -59,8 +59,10 @@
     storage/lzjb    compressratio  1.07x  -
     storage/zle     compressratio  1.08x  -
 
-Закачал на каждую ФС образ установки FreeBSD zfs get compressratio:
+Закачал на каждую ФС образ установки FreeBSD.
 
+    [root@server ~]# zfs get compressratio
+    NAME            PROPERTY       VALUE  SOURCE
     storage/gzip    compressratio  2.83x  -
     storage/gzip-N  compressratio  2.81x  -
     storage/lz4     compressratio  2.14x  -
