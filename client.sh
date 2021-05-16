@@ -1,3 +1,4 @@
+#!/bin/bash
 yum install nfs-utils -y
 systemctl start rpcbind
 systemctl enable rpcbind

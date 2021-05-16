@@ -1,4 +1,5 @@
-hyum install nfs-utils
+#!/bin/bash
+yum install nfs-utils
 systemctl enable rpcbind nfs-server
 systemctl start rpcbind nfs-server
 mkdir /var/nfs
