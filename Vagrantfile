@@ -16,6 +16,7 @@ config.vm.define "server" do |server|
     vb.memory = "1024"
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
+  server.vm.provision "shell", path: "server.sh"
 end
 
 config.vm.define "client" do |client|
@@ -26,6 +27,8 @@ config.vm.define "client" do |client|
     vb.memory = "1024"
     vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
   end
+  client.vm.provision "shell", path: "client.sh"
+
 end
 
 end
