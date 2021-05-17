@@ -18,6 +18,7 @@ server.sh
     echo "/var/nfs 10.0.0.0/24(ro,root_squash)" >> /etc/exports
     echo "/var/upload 10.0.0.0/24(rw,root_squash)" >> /etc/exports
     exportfs -r
+    systemctl enable firewalld
     systemctl start firewalld
     sudo firewall-cmd --zone=public --add-service=nfs --permanent
     sudo firewall-cmd --zone=public --add-service=nfs3 --permanent
